@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "155302405249",
+    "project_id": "aisidekik",
+    "storage_bucket": "aisidekik.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:155302405249:android:9f0f1dbe98ef39acead980",
+        "android_client_info": {
+          "package_name": "com.example.sidekik"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCr5Yh2lRIrpbokziU9T0mXO10VcIsGZug"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
