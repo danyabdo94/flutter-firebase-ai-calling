@@ -12,7 +12,11 @@ class GeminiService {
     _multimodalModel = FirebaseAI.googleAI().generativeModel(
       model: 'gemini-2.5-flash',
       tools: [
-        Tool.functionDeclarations([fetchLocationDataTool, fetchSocialPostTool]),
+        Tool.functionDeclarations([
+          fetchLocationDataTool,
+          fetchSocialPostTool,
+          editLocationNameTool,
+        ]),
       ],
     );
 
@@ -69,6 +73,16 @@ class GeminiService {
             response = await chat.sendMessage(
               Content.functionResponse(functionCall.name, functionResult),
             );
+
+          case 'editLocationName':
+            var id = functionCall.args['locationId']! as int;
+            var name = functionCall.args['locationName']! as String;
+            await updateLocationName(id, name);
+            final functionResult = {'status': 'success'};
+            response = await chat.sendMessage(
+              Content.functionResponse(functionCall.name, functionResult),
+            );
+            break;
           default:
             throw UnimplementedError(
               'Function ${functionCall.name} not implemented',
@@ -79,4 +93,3 @@ class GeminiService {
     return response.text ?? 'No response from AI';
   }
 }
-
