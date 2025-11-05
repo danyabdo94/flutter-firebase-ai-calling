@@ -31,6 +31,16 @@ class _MyGeminiPageState extends State<MyGeminiPage> {
       String response = "";
       if (prompt.toLowerCase().contains("code")) {
         response = await _geminiService.executeCode(prompt);
+      } else if ([
+        "who",
+        "what",
+        "when",
+        "where",
+        "which",
+        "why",
+        "how",
+      ].any((word) => prompt.toLowerCase().startsWith(word))) {
+        response = await _geminiService.fetchSearchResponse(prompt);
       } else {
         response = await _geminiService.fetchResponse(prompt);
       }

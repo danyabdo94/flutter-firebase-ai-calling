@@ -7,6 +7,7 @@ import 'dart:async';
 class GeminiService {
   late final GenerativeModel _multimodalModel;
   late final GenerativeModel _codeExecutionModel;
+  late final GenerativeModel _searchModel;
 
   GeminiService() {
     _multimodalModel = FirebaseAI.googleAI().generativeModel(
@@ -18,6 +19,14 @@ class GeminiService {
           editLocationNameTool,
         ]),
       ],
+    );
+
+    _searchModel = FirebaseAI.googleAI().generativeModel(
+      model: 'gemini-2.5-flash',
+      systemInstruction: Content.text(
+        'You are an AI assistant that helps users by providing accurate and concise information retrieved from web searches.',
+      ),
+      tools: [Tool.googleSearch()],
     );
 
     _codeExecutionModel = FirebaseAI.googleAI().generativeModel(
@@ -48,6 +57,12 @@ class GeminiService {
       }
     }
     return buffer.toString();
+  }
+
+  Future<String> fetchSearchResponse(String query) async {
+    final searchChat = _searchModel.startChat();
+    final response = await searchChat.sendMessage(Content.text(query));
+    return response.text ?? 'No response from AI';
   }
 
   Future<String> fetchResponse(String text) async {
